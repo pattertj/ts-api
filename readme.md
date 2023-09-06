@@ -35,3 +35,10 @@ tradestation-api is an unofficial wrapper for the TradeStation API. It aims to b
 - Account info and preferences
 
 <b>tradestation-api is very much a work in progress and is currently not feature complete. See the [Issues](https://github.com/pattertj/tradestation-api/issues) to make a suggestion.</b>
+
+## In-Progress Features
+
+Several features are still in flight.
+
+- Streaming Client endpoints
+- Helpers for complicated dictionary request endpoints
