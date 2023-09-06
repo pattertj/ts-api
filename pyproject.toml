@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "tradestation-api"
+version = "0.1.0"
+description = "An unofficial wrapper for the TradeStation API."
+authors = ["Tyler Patterson <pattertj@duck.com>"]
+readme = "README.md"
+packages = [{include = "tradestation"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+httpx = "^0.24.1"
+
+[tool.poetry.group.dev.dependencies]
+deptry = "^0.12.0"
+mypy = "^1.4.1"
+pre-commit = "^3.3.3"
+bandit = "^1.7.5"
+flake8 = "^6.0.0"
+pydocstyle = "^6.3.0"
+flake8-bugbear = "^23.7.10"
+autopep8 = "^2.0.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target-version = ['py310']
+preview = true
+
+[tool.isort]
+line_length = 120
+profile = "black"
+
+[tool.mypy]
+files = ["tradestation"]
+disallow_untyped_defs = "True"
+no_implicit_optional = "True"
+check_untyped_defs = "True"
+warn_unused_ignores = "True"
+show_error_codes = "True"
+ignore_missing_imports="True"
