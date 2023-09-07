@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "tradestation-api"
+name = "ts-api"
 version = "0.1.0"
 description = "An unofficial wrapper for the TradeStation API."
 authors = ["Tyler Patterson <pattertj@duck.com>"]
 readme = "README.md"
-packages = [{include = "tradestation"}]
+packages = [{include = "ts"}]
 license = "LICENSE"
-keywords = ["tradestation", "finance", "trading", "automated-trading", "tradestation-api"]
+keywords = ["tradestation", "finance", "trading", "automated-trading", "tradestation-api", "ts-api"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Programming Language :: Python",
@@ -51,7 +51,7 @@ line_length = 120
 profile = "black"
 
 [tool.mypy]
-files = ["tradestation"]
+files = ["ts"]
 disallow_untyped_defs = "True"
 no_implicit_optional = "True"
 check_untyped_defs = "True"

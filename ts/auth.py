@@ -25,8 +25,8 @@ from urllib.parse import parse_qs, urlparse
 
 import httpx
 
-from tradestation.client.asynchronous import AsyncClient
-from tradestation.client.synchronous import Client
+from ts.client.asynchronous import AsyncClient
+from ts.client.synchronous import Client
 
 AUTH_ENDPOINT = "https://signin.tradestation.com/authorize"
 TOKEN_ENDPOINT = "https://signin.tradestation.com/oauth/token"  # nosec - This isn't a hardcoded password
