@@ -5,7 +5,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
-from typing import Any, Callable, Coroutine, Mapping, Optional, Union
+from typing import Any, Awaitable, Callable, Coroutine, Mapping, Optional, Union
 
 from httpx import Client, Response
 
@@ -274,7 +274,7 @@ class BaseClient(ABC):
     # Brokerage #
     #############
 
-    def user_accounts(self, user_id: str) -> Any:
+    def user_accounts(self, user_id: str) -> Response | Awaitable[Response]:
         """Grabs all the accounts associated with the User.
 
         Arguments:
@@ -296,7 +296,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def user_wallet(self, account_id: str) -> Any:
+    def user_wallet(self, account_id: str) -> Response | Awaitable[Response]:
         """Grabs a A valid crypto Account ID for the authenticated user.
 
         Arguments:
@@ -318,7 +318,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def account_balances(self, account_keys: list[str | int]) -> Any:
+    def account_balances(self, account_keys: list[str | int]) -> Response | Awaitable[Response]:
         """Grabs all the balances for each account provided.
 
         Args:
@@ -354,7 +354,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def account_bod_balances(self, account_keys: list[str | int]) -> Any:
+    def account_bod_balances(self, account_keys: list[str | int]) -> Response | Awaitable[Response]:
         """Grabs the beginning of day balances for each account provided.
 
         Args:
@@ -390,7 +390,9 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def account_positions(self, account_keys: list[str | int], symbols: Optional[list[str]] = None) -> Any:
+    def account_positions(
+        self, account_keys: list[str | int], symbols: Optional[list[str]] = None
+    ) -> Response | Awaitable[Response]:
         """Grabs all the account positions.
 
         Arguments:
@@ -437,7 +439,7 @@ class BaseClient(ABC):
 
     def account_orders(
         self, account_keys: list[str | int], page_size: int = 600, order_ids: Optional[list[str | int]] = None
-    ) -> Any:
+    ) -> Response | Awaitable[Response]:
         """Grab all the account orders for a list of accounts.
 
         Overview:
@@ -502,7 +504,7 @@ class BaseClient(ABC):
         since: date,
         page_size: int = 600,
         order_ids: Optional[list[str | int]] = None,
-    ) -> Any:
+    ) -> Response | Awaitable[Response]:
         """Grab all the account orders for a list of accounts.
 
         Overview:
@@ -582,7 +584,7 @@ class BaseClient(ABC):
         firstdate: datetime,
         lastdate: datetime,
         sessiontemplate: str,
-    ) -> Any:
+    ) -> Response | Awaitable[Response]:
         """Grabs all the accounts associated with the User.
 
         Arguments:
@@ -612,7 +614,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def get_crypto_symbol_names(self) -> Any:
+    def get_crypto_symbol_names(self) -> Response | Awaitable[Response]:
         """Fetch all crypto Symbol Names information."""
         # validate the token.
         self._token_validation()
@@ -625,7 +627,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def get_symbol_details(self, symbols: list[str]) -> Any:
+    def get_symbol_details(self, symbols: list[str]) -> Response | Awaitable[Response]:
         """Grabs the info for a particular symbol.
 
         Arguments:
@@ -656,7 +658,9 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def get_option_expirations(self, underlying: str, strike_price: Optional[float] = None) -> Any:
+    def get_option_expirations(
+        self, underlying: str, strike_price: Optional[float] = None
+    ) -> Response | Awaitable[Response]:
         """Get the available option contract expiration dates for the underlying symbol.
 
         Args:
@@ -676,7 +680,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def get_option_risk_reward(self, price: float, legs: list[dict[str, Any]]) -> Any:
+    def get_option_risk_reward(self, price: float, legs: list[dict[str, Any]]) -> Response | Awaitable[Response]:
         """Analyze the risk vs. reward of a potential option trade.
 
         This endpoint is not applicable for option spread types with different expirations,
@@ -716,7 +720,7 @@ class BaseClient(ABC):
 
         return self._post_request(url=url_endpoint, params=params, data=payload)
 
-    def get_option_spread_types(self) -> Any:
+    def get_option_spread_types(self) -> Response | Awaitable[Response]:
         """Get the available spread types for option chains."""
         # validate the token.
         self._token_validation()
@@ -738,7 +742,7 @@ class BaseClient(ABC):
         strikeInterval: Optional[int] = None,
         expiration: Optional[datetime] = None,
         expiration2: Optional[datetime] = None,
-    ) -> Any:
+    ) -> Response | Awaitable[Response]:
         """Get the available strike prices for a spread type and expiration date.
 
         Args:
@@ -776,7 +780,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def get_quote_snapshots(self, symbols: list[str]) -> Any:
+    def get_quote_snapshots(self, symbols: list[str]) -> Response | Awaitable[Response]:
         """Fetch a full snapshot of the latest Quote for the given Symbols.
 
         For realtime Quote updates, users should use the Quote Stream endpoint.
@@ -810,7 +814,7 @@ class BaseClient(ABC):
     # Order Execution #
     ###################
 
-    def confirm_order(self, order_request: dict) -> Any:
+    def confirm_order(self, order_request: dict) -> Response | Awaitable[Response]:
         """Return estimated cost and commission information for an order without the order actually being placed.
 
         Request valid for Market, Limit, Stop Market, Stop Limit, Options, and Order Sends Order (OSO) order types.
@@ -838,7 +842,7 @@ class BaseClient(ABC):
 
         return self._post_request(url=url_endpoint, params=params, data=payload)
 
-    def confirm_group_order(self, orders: list[dict], type: str) -> Any:
+    def confirm_group_order(self, orders: list[dict], type: str) -> Response | Awaitable[Response]:
         """Create an Order Confirmation for a group order.
 
         Request valid for all account types. Request valid for Order Cancels Order (OCO)
@@ -862,7 +866,7 @@ class BaseClient(ABC):
 
         return self._post_request(url=url_endpoint, params=params, data=data)
 
-    def place_group_order(self, orders: list[dict], type: str) -> Any:
+    def place_group_order(self, orders: list[dict], type: str) -> Response | Awaitable[Response]:
         """Submit a list of orders.
 
         Arguments:
@@ -882,7 +886,7 @@ class BaseClient(ABC):
 
         return self._post_request(url=url_endpoint, params=params, data=data)
 
-    def place_order(self, order: dict) -> Any:
+    def place_order(self, order: dict) -> Response | Awaitable[Response]:
         """Submit an order.
 
         Arguments:
@@ -900,7 +904,7 @@ class BaseClient(ABC):
 
         return self._post_request(url=url_endpoint, params=params, data=order)
 
-    def replace_order(self, order_id: str | int, new_order: dict) -> Any:
+    def replace_order(self, order_id: str | int, new_order: dict) -> Response | Awaitable[Response]:
         """Replace an order.
 
         Arguments:
@@ -920,7 +924,7 @@ class BaseClient(ABC):
 
         return self._put_request(url=url_endpoint, params=params, data=new_order)
 
-    def cancel_order(self, order_id: str) -> Any:
+    def cancel_order(self, order_id: str) -> Response | Awaitable[Response]:
         """Cancel an active order. Request valid for all account types.
 
         Args:
@@ -937,7 +941,7 @@ class BaseClient(ABC):
 
         return self._delete_request(url=url_endpoint, params=params)
 
-    def get_activation_triggers(self) -> Any:
+    def get_activation_triggers(self) -> Response | Awaitable[Response]:
         """
         To place orders with activation triggers, a valid TriggerKey must be sent with the order.
 
@@ -954,7 +958,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def available_routes(self) -> Any:
+    def available_routes(self) -> Response | Awaitable[Response]:
         """Return a list of valid routes that a client can specify when posting an order."""
         # validate the token.
         self._token_validation()
