@@ -334,16 +334,13 @@ class BaseClient(ABC):
         ----
         dict: A list of account balances for each of the accounts.
         """
-        if not isinstance(account_keys, list):
-            raise ValueError("Account Keys, must be a list object")
-
         # validate the token.
         self._token_validation()
 
         # argument validation.
         account_keys_str = ""
-        if not account_keys:
-            raise ValueError("You cannot pass through an empty list for account keys.")
+        if not account_keys or not isinstance(account_keys, list):
+            raise ValueError("You must pass a list with at least one account for account keys.")
         elif len(account_keys) > 0 and len(account_keys) <= 25:
             account_keys_str = ",".join(map(str, account_keys))
         elif len(account_keys) > 25:
@@ -373,16 +370,13 @@ class BaseClient(ABC):
         ----
         dict: A list of account balances for each of the accounts.
         """
-        if not isinstance(account_keys, list):
-            raise ValueError("Account Keys, must be a list object")
-
         # validate the token.
         self._token_validation()
 
         # argument validation.
         account_keys_str = ""
-        if not account_keys:
-            raise ValueError("You cannot pass through an empty list for account keys.")
+        if not account_keys or not isinstance(account_keys, list):
+            raise ValueError("You must pass a list with at least one account for account keys.")
         elif len(account_keys) > 0 and len(account_keys) <= 25:
             account_keys_str = ",".join(map(str, account_keys))
         elif len(account_keys) > 25:
@@ -413,15 +407,13 @@ class BaseClient(ABC):
         ----
         dict: A list of account balances for each of the accounts.
         """
-        if not isinstance(account_keys, list):
-            raise ValueError("Account Keys, must be a list object")
         # validate the token.
         self._token_validation()
 
         # argument validation, account keys.
         account_keys_str = ""
-        if not account_keys:
-            raise ValueError("You cannot pass through an empty list for account keys.")
+        if not account_keys or not isinstance(account_keys, list):
+            raise ValueError("You must pass a list with at least one account for account keys.")
         elif len(account_keys) > 0 and len(account_keys) <= 25:
             account_keys_str = ",".join(map(str, account_keys))
         elif len(account_keys) > 25:
@@ -471,16 +463,13 @@ class BaseClient(ABC):
         ----
         dict: A list of account balances for each of the accounts.
         """
-        if not isinstance(account_keys, list):
-            raise ValueError("Account Keys, must be a list object")
-
         # validate the token.
         self._token_validation()
 
         # argument validation, account keys.
         account_keys_str = ""
-        if not account_keys:
-            raise ValueError("You cannot pass through an empty list for account keys.")
+        if not account_keys or not isinstance(account_keys, list):
+            raise ValueError("You must pass a list with at least one account for account keys.")
         elif len(account_keys) > 0 and len(account_keys) <= 25:
             account_keys_str = ",".join(map(str, account_keys))
         elif len(account_keys) > 25:
@@ -543,15 +532,12 @@ class BaseClient(ABC):
         if not since:
             since = date.today() - timedelta(days=90)
 
-        if not isinstance(account_keys, list):
-            raise ValueError("Account Keys, must be a list object")
-
         if 600 < page_size < 0 or not isinstance(page_size, int):
             raise ValueError("Page Size must be an integer, [1..600]")
 
         account_keys_str = ""
-        if not account_keys:
-            raise ValueError("You cannot pass through an empty list for account keys.")
+        if not account_keys or not isinstance(account_keys, list):
+            raise ValueError("You must pass a list with at least one account for account keys.")
         elif len(account_keys) > 0 and len(account_keys) <= 25:
             account_keys_str = ",".join(map(str, account_keys))
         elif len(account_keys) > 25:
