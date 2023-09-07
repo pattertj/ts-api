@@ -47,11 +47,11 @@ Several features are still in flight.
 
 tradestation-api has two core goals:
 
-1) **Simplify the OAuth authentication procedure.** This includes initial registration, refresh tokens, and automtic re-authorizing for access tokens
-2) **Be as lightweight as possible.** tradestation-api takes in the base datatypes and returns the raw responses. No heavy logic or validation. Optional assistance with building Orders and complex order groups is in the roadmap for this rather complex task.
+1. **Simplify the OAuth authentication procedure.** This includes initial registration, refresh tokens, and automtic re-authorizing for access tokens
+2. **Be as lightweight as possible.** tradestation-api takes in the base datatypes and returns the raw responses. No heavy logic or validation. Optional assistance with building Orders and complex order groups is in the roadmap for this rather complex task.
 
 ## How do I use tradestation-api?
 
-``` python
+```python
 # Code sample
 ```
