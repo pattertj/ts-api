@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ts-api"
-version = "0.1.5"
+version = "0.1.6"
 description = "An unofficial wrapper for the TradeStation API."
 authors = ["Tyler Patterson <pattertj@duck.com>"]
 readme = "README.md"
