@@ -3,7 +3,8 @@ name = "ts-api"
 version = "0.1.6"
 description = "An unofficial wrapper for the TradeStation API."
 authors = ["Tyler Patterson <pattertj@duck.com>"]
-readme = "README.md"
+readme = "readme.md"
+repository = "https://github.com/pattertj/tradestation-api"
 packages = [{include = "ts"}]
 license = "LICENSE"
 keywords = ["tradestation", "finance", "trading", "automated-trading", "tradestation-api", "ts-api"]
