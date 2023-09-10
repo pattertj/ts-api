@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  tradestation-api
+  ts-api
   <br>
 </h1>
 
@@ -26,7 +26,7 @@
 
 ## Description
 
-tradestation-api is an unofficial wrapper for the TradeStation API. It aims to be as light and unopinionated as possible, offering an elegant programmatic interface over each endpoint. Notable functionality includes:
+ts-api is an unofficial wrapper for the TradeStation API. It aims to be as light and unopinionated as possible, offering an elegant programmatic interface over each endpoint. Notable functionality includes:
 
 - Login and authentication
 - MarketData, Brokerage, and Order Execution endpoints
@@ -34,19 +34,19 @@ tradestation-api is an unofficial wrapper for the TradeStation API. It aims to b
 - Trades and trade management
 - Account info and preferences
 
-**tradestation-api is very much a work in progress and is currently not feature complete. See the [Issues](https://github.com/pattertj/ts-api/issues) to make a suggestion.**
+**ts-api is very much a work in progress and is currently not feature complete. See the [Issues](https://github.com/pattertj/ts-api/issues) to make a suggestion.**
 
 In-flight features include:
 
 - Streaming Client endpoints
 - Helpers for complicated dictionary request endpoints
 
-## Why tradestation-api?
+## Why ts-api?
 
-tradestation-api has two core goals:
+ts-api has two core goals:
 
 1. **Simplify the OAuth authentication procedure.** This includes initial registration, refresh tokens, and automatic re-authorization of access tokens
-2. **Be as lightweight as possible.** tradestation-api takes in the base datatypes and returns the raw responses. No heavy logic or validation. Optional assistance with building orders and complex order groups is in the roadmap for this rather complex task.
+2. **Be as lightweight as possible.** ts-api takes in the base datatypes and returns the raw responses. No heavy logic or validation. Optional assistance with building orders and complex order groups is in the roadmap for this rather complex task.
 
 ## Installation
 
