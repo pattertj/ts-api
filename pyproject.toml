@@ -25,7 +25,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.8.1,<4.0"
-httpx = "^0.24.1"
+httpx = "^0.25.0"
 
 [tool.poetry.group.dev.dependencies]
 deptry = "^0.12.0"
