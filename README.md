@@ -127,7 +127,7 @@ All URIs are relative to _<https://api.tradestation.com>_
 
 #### Open an issue
 
-If you've found a problem, you can open an [issue](https://github.com/pattertj/LoopTrader/issues/new)!
+If you've found a problem, you can open an [issue](https://github.com/pattertj/ts-api/issues/new)!
 
 #### Solve an issue
 
