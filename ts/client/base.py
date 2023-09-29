@@ -274,7 +274,7 @@ class BaseClient(ABC):
     # Brokerage #
     #############
 
-    def user_accounts(self, user_id: str) -> Response | Awaitable[Response]:
+    def get_accounts(self, user_id: str) -> Response | Awaitable[Response]:
         """Grabs all the accounts associated with the User.
 
         Arguments:
@@ -296,7 +296,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def user_wallet(self, account_id: str) -> Response | Awaitable[Response]:
+    def get_wallets(self, account_id: str) -> Response | Awaitable[Response]:
         """Grabs a A valid crypto Account ID for the authenticated user.
 
         Arguments:
@@ -318,7 +318,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def account_balances(self, account_keys: list[str | int]) -> Response | Awaitable[Response]:
+    def get_balances(self, account_keys: list[str | int]) -> Response | Awaitable[Response]:
         """Grabs all the balances for each account provided.
 
         Args:
@@ -354,7 +354,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def account_bod_balances(self, account_keys: list[str | int]) -> Response | Awaitable[Response]:
+    def get_balances_bod(self, account_keys: list[str | int]) -> Response | Awaitable[Response]:
         """Grabs the beginning of day balances for each account provided.
 
         Args:
@@ -390,7 +390,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def account_positions(
+    def get_positions(
         self, account_keys: list[str | int], symbols: Optional[list[str]] = None
     ) -> Response | Awaitable[Response]:
         """Grabs all the account positions.
@@ -437,7 +437,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def account_orders(
+    def get_orders(
         self, account_keys: list[str | int], page_size: int = 600, order_ids: Optional[list[str | int]] = None
     ) -> Response | Awaitable[Response]:
         """Grab all the account orders for a list of accounts.
@@ -498,7 +498,7 @@ class BaseClient(ABC):
 
         return self._get_request(url=url_endpoint, params=params)
 
-    def account_historical_orders(
+    def get_historical_orders(
         self,
         account_keys: list[str | int],
         since: date,
