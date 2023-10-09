@@ -70,3 +70,8 @@ class AsyncClient(BaseClient):
             response = await client.put(url, headers=headers, params=params, data=data)
 
         return response
+
+    async def get_accounts(self, user_id: str) -> httpx.Response:
+        url, params = self._get_accounts(user_id)
+
+        return await self._get_request(url, params)
