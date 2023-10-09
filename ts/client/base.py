@@ -5,7 +5,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
-from typing import Any, Awaitable, Callable, Coroutine, Mapping, Optional, Union
+from typing import Any, Awaitable, Callable, Coroutine, Mapping, Optional, Tuple, Union
 
 from httpx import Client, Response
 
@@ -274,7 +274,7 @@ class BaseClient(ABC):
     # Brokerage #
     #############
 
-    def get_accounts(self, user_id: str) -> Response | Awaitable[Response]:
+    def _get_accounts(self, user_id: str) -> Tuple[str, dict]:
         """Grabs all the accounts associated with the User.
 
         Arguments:
@@ -285,7 +285,7 @@ class BaseClient(ABC):
         ----
         (dict): All the user accounts.
         """
-        # validate the token.
+        # validate the token.[]
         self._token_validation()
 
         # define the endpoint.
@@ -294,7 +294,7 @@ class BaseClient(ABC):
         # define the arguments
         params = {"access_token": self._access_token}
 
-        return self._get_request(url=url_endpoint, params=params)
+        return url_endpoint, params
 
     def get_wallets(self, account_id: str) -> Response | Awaitable[Response]:
         """Grabs a A valid crypto Account ID for the authenticated user.
