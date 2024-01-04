@@ -24,6 +24,10 @@ from typing import Any, Callable, Dict, Union
 from urllib.parse import parse_qs, urlparse
 
 import httpx
+import http.server
+import socketserver
+import requests
+import webbrowser
 
 from ts.client.asynchronous import AsyncClient
 from ts.client.synchronous import Client
@@ -220,6 +224,12 @@ def client_from_manual_flow(
           'and you need to copy the URL of the page. :')
     print(url)
     # Obtain Authorization Code from User
+
+
+        # Open the authorization URL in Chrome
+    webbrowser.open_new(url)
+
+
     auth_redirect = input("Please enter the full redirect URL you were returned to: ")
     parsed_url = urlparse(auth_redirect)
     try:
