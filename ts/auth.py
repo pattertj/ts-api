@@ -24,6 +24,10 @@ from typing import Any, Callable, Dict, Union
 from urllib.parse import parse_qs, urlparse
 
 import httpx
+import http.server
+import socketserver
+import requests
+import webbrowser
 
 from ts.client.asynchronous import AsyncClient
 from ts.client.synchronous import Client
@@ -141,7 +145,8 @@ def __token_loader(token_path: str) -> Callable[[], Dict[str, Any]]:
 
 
 def easy_client(
-    client_key: str, client_secret: str, redirect_uri: str, paper_trade: bool = True, asyncio: bool = False
+    client_key: str, client_secret: str, redirect_uri: str, autho_scope: str = "openid offline_access profile MarketData ReadAccount Trade Crypto Matrix OptionSpreads",
+    paper_trade: bool = True, asyncio: bool = False
 ) -> AsyncClient | Client:
     """
     Initialize and return a client object based on existing token or manual flow.
@@ -172,13 +177,14 @@ def easy_client(
         c = client_from_token_file(client_key, client_secret, paper_trade, asyncio)
         logger.info("Returning client loaded from token file 'ts_state.json'")
     else:
-        logger.warning("Failed to find token file 'ts_state.json'")
-        c = client_from_manual_flow(client_key, client_secret, redirect_uri, paper_trade, asyncio)
+        logger.warning("Failed to find token file 'ts_state.json'. Generating URL needed for manually authorizing application. Please follow directions:")
+        c = client_from_manual_flow(client_key, client_secret, redirect_uri, autho_scope, paper_trade, asyncio)
     return c
 
 
 def client_from_manual_flow(
-    client_key: str, client_secret: str, redirect_uri: str, paper_trade: bool = True, asyncio: bool = False
+    client_key: str, client_secret: str, redirect_uri: str, autho_scope: str = "openid offline_access profile MarketData ReadAccount Trade Crypto Matrix OptionSpreads", 
+    paper_trade: bool = True, asyncio: bool = False
 ) -> AsyncClient | Client:
     """
     Initialize and return a client object by manually completing the OAuth2 flow.
@@ -203,24 +209,45 @@ def client_from_manual_flow(
     - Follow the printed instructions to visit the authorization URL and paste the full redirect URL.
     - The function will automatically request tokens and initialize the client.
     """
-    # Build the Authorization URL
-    params = {
-        "response_type": "code",
-        "client_id": client_key,
-        "redirect_uri": redirect_uri,
-        "audience": AUDIENCE_ENDPOINT,
-        "state": secrets.token_hex(16),  # Ideally, this should be dynamically generated for each request
-        "scope": "MarketData ReadAccount Trade Crypto OptionsSpreads Matrix openid offline_access profile email",
-    }
-    url = httpx.get(AUTH_ENDPOINT, params=params).url
-    print(f"Please go to this URL to authorize the application: {url}")
 
+    # Generate the authorization URL
+        # "state" = An opaque arbitrary alphanumeric string value included in the 
+        # initial request that we include when redirecting back to your app. 
+        # This can be used to prevent cross-site request forgery attacks.
+        # Ideally, this should be dynamically generated for each request
+    state = secrets.token_hex(16)
+    url = ('https://signin.tradestation.com/authorize?response_type=code&client_id={}'
+       '&audience=https://api.tradestation.com&redirect_uri={}&state={}&scope={}').format(client_key, redirect_uri,
+                                                                                  state, autho_scope)
+    print('Please go to this URL to authorize the application. After logging in,' 
+          'the page will say "Unable to connect." However the URL will change '
+          'and you need to copy the URL of the page. :')
+    print(url)
     # Obtain Authorization Code from User
+
+
+        # Open the authorization URL in Chrome
+    webbrowser.open_new(url)
+
+
     auth_redirect = input("Please enter the full redirect URL you were returned to: ")
     parsed_url = urlparse(auth_redirect)
-    query_params = parse_qs(parsed_url.query)
-    authorization_code = query_params.get("code", [])[0].strip()
-
+    try:
+        query_params = parse_qs(parsed_url.query)
+        if state == query_params.get("state", [])[0].strip():
+            #state is valid
+            authorization_code = query_params.get("code", [])[0].strip()
+            print("Success")
+        else:
+            print("State of URL does not match. Possible cross-site request forgery attack.")
+            exit()
+        
+    except:
+        if query_params.get("error_description"):
+            print("There was a problem with the authorization: "+query_params.get("error_description", [])[0].strip())
+        else:
+            print("Unable to get authorization from url entered. Unknown error, likely a bad URL. Make sure to copy URL after logging in regardless of what the webpage might say.")
+        exit()
     # Request Tokens Using Authorization Code
     payload = {
         "grant_type": "authorization_code",
